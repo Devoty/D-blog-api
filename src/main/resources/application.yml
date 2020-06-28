@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://rm-2ze3664z7n6a8r9um4o.mysql.rds.aliyuncs.com:3306/blog?useUnicode=true&characterEncoding=utf-8
+    username: blog
+    password: blog!1234
+
+dir: /Users/devoty/Desktop/
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
