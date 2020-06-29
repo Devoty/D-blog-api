@@ -12,7 +12,6 @@ public class BlogInfo {
     /**
      * ID
      */
-    @NotEmpty
     private String id;
 
     /**
@@ -38,17 +37,19 @@ public class BlogInfo {
     /**
      * 标题
      */
+    @NotEmpty(message = "请填写标题")
     private String title;
 
     /**
      * 简介
      */
-
+    @NotEmpty(message = "请填写简介")
     private String summary;
 
     /**
      * 文章ID
      */
+    @NotEmpty(message = "请填写博客内容")
     private String contentId;
 
     /**

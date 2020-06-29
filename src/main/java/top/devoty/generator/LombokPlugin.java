@@ -3,6 +3,7 @@ package top.devoty.generator;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
@@ -49,6 +50,15 @@ public class LombokPlugin extends PluginAdapter {
         interfaze.addJavaDocLine("/**");
         interfaze.addJavaDocLine("* Created by Mybatis Generator on " + date2Str(new Date()));
         interfaze.addJavaDocLine("*/");
+
+//        interfaze.addImportedType("org.springframework.stereotype.Component");
+
+        FullyQualifiedJavaType fullyQualifiedJavaType = new FullyQualifiedJavaType("org.springframework.stereotype.Component");
+
+        interfaze.addImportedType(fullyQualifiedJavaType);
+
+//        interfaze.addStaticImport("org.springframework.stereotype.Component");
+        interfaze.addAnnotation("@Component");
         return true;
     }
 

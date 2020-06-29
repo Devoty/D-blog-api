@@ -2,6 +2,8 @@ package top.devoty.common;
 
 public class R<T> {
 
+    private static int ERROR_PARAM = 501;
+
     /**
      * 代码
      */
@@ -24,7 +26,8 @@ public class R<T> {
     }
 
     public R(int code, String msg){
-        this(code, msg, (T) "");
+        this.code = code;
+        this.msg = msg;
     }
 
     public static <T> R<T> ok(){
@@ -42,6 +45,11 @@ public class R<T> {
     public static <T> R<T> error(int code, String msg){
         return new R<T>(code, msg);
     }
+
+    public static <T> R<T> errorParam(String msg) {
+        return new R<T>(ERROR_PARAM, msg);
+    }
+
 
     public int getCode() {
         return code;

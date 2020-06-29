@@ -10,10 +10,12 @@ import top.devoty.common.R;
 @RestController
 public class FileController {
 
+    private static final String FILE_UPLOAD = "/fileUpload";
+
     @Autowired
     private FileService fileService;
 
-    @PostMapping("fileUpload")
+    @PostMapping(FILE_UPLOAD)
     public R fileUpLoad(MultipartFile file){
         return fileService.upLoadFile(file);
     }

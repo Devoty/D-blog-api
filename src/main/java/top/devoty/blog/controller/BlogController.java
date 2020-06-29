@@ -2,9 +2,8 @@ package top.devoty.blog.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import top.devoty.dto.*;
 import top.devoty.common.R;
 import top.devoty.service.BlogService;
@@ -14,7 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("blog")
 public class BlogController {
+
+    private final static String COUNT = "count";
+    private final static String CREAT = "creat";
+    private final static String LIST = "list";
+    private final static String ARTICLE = "article";
 
     @Autowired
     private BlogService blogService;
@@ -23,23 +28,23 @@ public class BlogController {
      * 查询博客总数
      * @return
      */
-    @GetMapping("count")
+    @GetMapping(COUNT)
     public R count(){
         return blogService.countBlog();
     }
 
-    @PostMapping()
-    public R creatBlog(){
 
-
-        return R.ok();
+    /**
+     * 创建blog
+     * @return
+     */
+    @PostMapping(CREAT)
+    public R creatBlog(@Validated @RequestBody BlogInfo blogInfo){
+        return blogService.creatBlog(blogInfo);
     }
 
-
-    @GetMapping("/blog/list")
+    @GetMapping(LIST)
     public R<List<BlogInfo>> listBlog(){
-
-
 
         BlogInfo blogInfo = BlogInfo.builder()
                 .banner("https://s1.ax1x.com/2020/05/14/YDhagx.jpg")//文章图标
@@ -58,11 +63,17 @@ public class BlogController {
         return R.ok(blogInfoList);
     }
 
-    @GetMapping("article")
-    public String blog(){
+    @GetMapping(ARTICLE)
+    public String article(){
         System.out.println("article");
         return "# 001";
     }
+
+    @PostMapping(ARTICLE)
+    public R article(@RequestBody String article){
+        return R.ok();
+    }
+
 
     //SELECT config_name, config_value FROM tb_config where config_name in ('avatar', 'desc','name', 'notice', 'slogan')
     @GetMapping("site")
