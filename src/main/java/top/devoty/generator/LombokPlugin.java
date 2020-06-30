@@ -22,6 +22,12 @@ public class LombokPlugin extends PluginAdapter {
         return true;
     }
 
+    /**
+     * domain 添加lombok插件注解
+     * @param topLevelClass
+     * @param introspectedTable
+     * @return
+     */
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //添加domain的import
@@ -44,33 +50,52 @@ public class LombokPlugin extends PluginAdapter {
         return true;
     }
 
+    /**
+     * 给Mapper接口添加 @Component 注解
+     * @param interfaze
+     * @param topLevelClass
+     * @param introspectedTable
+     * @return
+     */
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        //Mapper文件的注释
+
         interfaze.addJavaDocLine("/**");
         interfaze.addJavaDocLine("* Created by Mybatis Generator on " + date2Str(new Date()));
         interfaze.addJavaDocLine("*/");
 
-//        interfaze.addImportedType("org.springframework.stereotype.Component");
-
         FullyQualifiedJavaType fullyQualifiedJavaType = new FullyQualifiedJavaType("org.springframework.stereotype.Component");
-
         interfaze.addImportedType(fullyQualifiedJavaType);
-
-//        interfaze.addStaticImport("org.springframework.stereotype.Component");
         interfaze.addAnnotation("@Component");
+
         return true;
     }
 
+    /**
+     * 取消domain的getter方法
+     * @param method
+     * @param topLevelClass
+     * @param introspectedColumn
+     * @param introspectedTable
+     * @param modelClassType
+     * @return
+     */
     @Override
     public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        //不生成getter
         return false;
     }
 
+    /**
+     * 取消domain的setter方法
+     * @param method
+     * @param topLevelClass
+     * @param introspectedColumn
+     * @param introspectedTable
+     * @param modelClassType
+     * @return
+     */
     @Override
     public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        //不生成setter
         return false;
     }
 

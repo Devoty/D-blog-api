@@ -14,7 +14,7 @@ public interface BlogService {
 
     R article(String article);
 
-    List<Blog> selectBlog();
+    List<BlogInfo> listBlog(BlogInfo blogInfo);
 
 
 }

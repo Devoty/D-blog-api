@@ -12,6 +12,7 @@ import top.devoty.mapper.BlogContentMapper;
 import top.devoty.mapper.BlogMapper;
 import top.devoty.service.BlogService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,6 @@ public class BlogServiceImpl implements BlogService {
                 .top(0)
                 .views(90)
                 .build();
-
         int sum = blogMapper.insert(blog);
         return R.ok(sum);
     }
@@ -69,13 +69,28 @@ public class BlogServiceImpl implements BlogService {
         blogContent.setStatusCd(0);
         blogContent.setStatusTime(new Date());
         blogContent.setBlogContent(article);
+
         int sum = blogContentMapper.insert(blogContent);
 
         return R.ok(sum);
     }
 
     @Override
-    public List<Blog> selectBlog() {
-        return null;
+    public List<BlogInfo> listBlog(BlogInfo blogInfo) {
+
+        BlogExample blogExample  = new BlogExample();
+//        BlogExample.Criteria criteria = blogExample.createCriteria();
+
+        List<Blog> blogList = blogMapper.selectByExample(blogExample);
+
+        for (Blog blog : blogList){
+
+        }
+
+        List<BlogInfo> blogInfoList = new ArrayList<>();
+
+
+        return blogInfoList;
+
     }
 }

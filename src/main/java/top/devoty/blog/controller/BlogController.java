@@ -44,33 +44,22 @@ public class BlogController {
     }
 
     @GetMapping(LIST)
-    public R<List<BlogInfo>> listBlog(){
+    public R<List<BlogInfo>> listBlog(BlogInfo blogInfo){
 
-        BlogInfo blogInfo = BlogInfo.builder()
-                .banner("https://s1.ax1x.com/2020/05/14/YDhagx.jpg")//文章图标
-                .commentsCount(99)
-                .id("0")
-                .isHot("true")
-                .isTop("true")
-                .pubTime(new Date().toString())
-                .summary("我是标题---简介")
-                .title("我才是标题")
-                .viewsCount("8888")
-                .build();
+        List<BlogInfo> blogInfos = blogService.listBlog(blogInfo);
 
-        List<BlogInfo> blogInfoList = new ArrayList<>();
-        blogInfoList.add(blogInfo);
-        return R.ok(blogInfoList);
+
+        return R.ok(blogInfos);
     }
 
     @GetMapping(ARTICLE)
-    public String article(){
+    public String article(@RequestBody String articleId){
         System.out.println("article");
         return "# 001";
     }
 
     @PostMapping(ARTICLE)
-    public R article(@RequestBody String article){
+    public R article(@RequestBody String article,String df){
         return R.ok();
     }
 

@@ -12,8 +12,7 @@ import org.mybatis.generator.internal.util.StringUtility;
 import java.util.Properties;
 
 /**
- * 自定义注释生成器
- * Created by macro on 2018/4/26.
+ *
  */
 public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = false;
@@ -85,14 +84,14 @@ public class CommentGenerator extends DefaultCommentGenerator {
 //        sb.append(" * ");
 //        sb.append(introspectedTable.getFullyQualifiedTable());
         innerClass.addJavaDocLine("@Data");
-//
+
 //        sb.setLength(0);
 //        sb.append(" * @author ");
 //        sb.append(systemPro.getProperty("user.name"));
 //        sb.append(" ");
 //        sb.append(currentDateStr);
 
-        //      addJavadocTag(innerClass, markAsDoNotDelete);
+        //     addJavadocTag(innerClass, markAsDoNotDelete);
 
 //        innerClass.addJavaDocLine(" */");
 
