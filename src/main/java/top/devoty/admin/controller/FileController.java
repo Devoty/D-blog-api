@@ -12,12 +12,16 @@ public class FileController {
 
     private static final String FILE_UPLOAD = "/fileUpload";
 
+    private final FileService fileService;
+
     @Autowired
-    private FileService fileService;
+    public FileController(FileService fileService){
+        this.fileService = fileService;
+    }
 
     @PostMapping(FILE_UPLOAD)
     public R fileUpLoad(MultipartFile file){
-        return fileService.upLoadFile(file);
+        return R.ok(fileService.upLoadFile(file));
     }
 
 }

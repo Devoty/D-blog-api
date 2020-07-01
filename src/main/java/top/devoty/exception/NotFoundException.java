@@ -17,6 +17,6 @@ public class NotFoundException implements ErrorController {
 
     @RequestMapping(ERROR_PATH)
     public R error(){
-        return R.error(500, "接口不存在！");
+        return R.error(404, "接口不存在！");
     }
 }

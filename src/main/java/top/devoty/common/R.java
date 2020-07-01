@@ -1,8 +1,9 @@
 package top.devoty.common;
 
-public class R<T> {
+import top.devoty.exception.CommonEnum;
+import top.devoty.exception.ExceptionEnum;
 
-    private static int ERROR_PARAM = 501;
+public class R<T> {
 
     /**
      * 代码
@@ -30,26 +31,31 @@ public class R<T> {
         this.msg = msg;
     }
 
+    public R(CommonEnum commonEnum){
+        this.msg = commonEnum.getMsg();
+        this.code = commonEnum.getCode();
+    }
+
+    public R(CommonEnum commonEnum, T data){
+        this.msg = commonEnum.getMsg();
+        this.code = commonEnum.getCode();
+    }
+
     public static <T> R<T> ok(){
-        return new R<T>(200, "操作成功");
+        return new R<>(ExceptionEnum.SUCCESS);
     }
 
     public static <T> R<T> ok(T data){
-        return new R<>(200, "操作成功", data);
+        return new R<>(ExceptionEnum.SUCCESS, data);
     }
 
     public static <T> R<T> error(){
-        return new R<T>(500, "未知错误");
+        return new R<>(ExceptionEnum.UNKNOWN_ERROR);
     }
 
     public static <T> R<T> error(int code, String msg){
         return new R<T>(code, msg);
     }
-
-    public static <T> R<T> errorParam(String msg) {
-        return new R<T>(ERROR_PARAM, msg);
-    }
-
 
     public int getCode() {
         return code;

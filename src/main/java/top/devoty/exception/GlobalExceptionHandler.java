@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleParameterException(MethodArgumentNotValidException e) {
         String errorMessage = getErrorMessage(e.getBindingResult());
-        return R.errorParam(errorMessage);
+        return R.error(ExceptionEnum.ARGUE_ERROR.getCode(), errorMessage);
     }
 
     /**
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public R handlerBindException(BindException e) {
         String errorMessage = getErrorMessage(e.getBindingResult());
-        return R.errorParam(errorMessage);
+        return R.error(ExceptionEnum.ARGUE_ERROR.getCode(), errorMessage);
     }
     /**
      * 获取参数验证的结果
@@ -53,7 +53,6 @@ public class GlobalExceptionHandler {
     //全局异常捕捉处理
     @ExceptionHandler(value = Exception.class)
     public R errorHandler(Exception e) {
-        //自定义异常处理
         e.printStackTrace();
         return R.error();
     }
@@ -61,9 +60,10 @@ public class GlobalExceptionHandler {
     // 全局业务异常捕捉处理
     @ExceptionHandler(value = ServiceException.class)
     public R serviceErrorHandler(ServiceException e) {
-        //自定义业务异常处理
         e.printStackTrace();
-        return R.error();
+        String message = e.getMessage();
+        int code = e.getCode();
+        return R.error(code, message);
     }
 
 }

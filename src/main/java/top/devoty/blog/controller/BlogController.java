@@ -21,8 +21,12 @@ public class BlogController {
     private final static String LIST = "list";
     private final static String ARTICLE = "article";
 
-    @Autowired
     private BlogService blogService;
+
+    @Autowired
+    public BlogController (BlogService blogService){
+        this.blogService = blogService;
+    }
 
     /**
      * 查询博客总数
