@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Data
 @Builder
@@ -15,7 +16,7 @@ public class BlogInfo {
     /**
      * ID
      */
-    private String id;
+    private Integer id;
 
     /**
      * 标题
@@ -63,7 +64,7 @@ public class BlogInfo {
     /**
      * 是否热搜
      */
-    private String hot;
+    private Integer hot;
 
     /**
      * 阅读量
@@ -78,7 +79,7 @@ public class BlogInfo {
     /**
      * 评论量
      */
-    private int commentsCount;
+    private Integer commentsCount;
 
     /**
      * 发布时间

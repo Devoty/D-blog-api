@@ -7,10 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 import top.devoty.service.FileService;
 import top.devoty.common.R;
 
+/**
+ * 文件长传
+ */
 @RestController
 public class FileController {
-
-    private static final String FILE_UPLOAD = "/fileUpload";
 
     private final FileService fileService;
 
@@ -19,8 +20,13 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping(FILE_UPLOAD)
-    public R fileUpLoad(MultipartFile file){
+    /**
+     * 上传文件，返回文件UUID
+     * @param file 文件
+     * @return
+     */
+    @PostMapping("fileUpload")
+    public R<String> fileUpLoad(MultipartFile file){
         return R.ok(fileService.upLoadFile(file));
     }
 

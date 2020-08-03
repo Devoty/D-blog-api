@@ -1,8 +1,9 @@
 package top.devoty.service.impl;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.devoty.common.R;
 import top.devoty.common.UUIDUtils;
 import top.devoty.domain.Blog;
 import top.devoty.domain.BlogContent;
@@ -19,24 +20,30 @@ import java.util.List;
 @Service
 public class BlogServiceImpl implements BlogService {
 
-    @Autowired
     private BlogMapper blogMapper;
 
-    @Autowired
     private BlogContentMapper blogContentMapper;
 
+
+    @Autowired
+    public BlogServiceImpl(BlogMapper blogMapper,
+                           BlogContentMapper blogContentMapper){
+        this.blogMapper = blogMapper;
+        this.blogContentMapper = blogContentMapper;
+    }
+
     @Override
-    public R countBlog() {
+    public Long countBlog() {
 
         BlogExample example = new BlogExample();
         Long count = blogMapper.countByExample(example);
 
-        return R.ok(count);
+        return count;
 
     }
 
     @Override
-    public R creatBlog(BlogInfo blogInfo) {
+    public Integer creatBlog(BlogInfo blogInfo) {
         Blog blog = Blog.builder()
                 .banner("url")
                 .categoryId(9)
@@ -56,11 +63,11 @@ public class BlogServiceImpl implements BlogService {
                 .views(90)
                 .build();
         int sum = blogMapper.insert(blog);
-        return R.ok(sum);
+        return sum;
     }
 
     @Override
-    public R article(String article) {
+    public String creatArticle(String articleId, String article) {
 
         String uuid = UUIDUtils.getUUID();
         BlogContent blogContent = new BlogContent();
@@ -72,23 +79,33 @@ public class BlogServiceImpl implements BlogService {
 
         int sum = blogContentMapper.insert(blogContent);
 
-        return R.ok(sum);
+        return String.valueOf(sum);
+    }
+
+    @Override
+    public String getsArticle(String articleId) {
+
+        BlogContent blogContent = blogContentMapper.selectByPrimaryKey(articleId);
+
+
+        return "123";
     }
 
     @Override
     public List<BlogInfo> listBlog(BlogInfo blogInfo) {
 
         BlogExample blogExample  = new BlogExample();
-//        BlogExample.Criteria criteria = blogExample.createCriteria();
-
         List<Blog> blogList = blogMapper.selectByExample(blogExample);
-
+        List<BlogInfo> blogInfoList = new ArrayList<>();
         for (Blog blog : blogList){
+            BlogInfo blogInfo1 = new BlogInfo();
+            BeanUtils.copyProperties(blog,blogInfo1);
+
+            String str = DateFormatUtils.format(blog.getCreateTime(),"yyyy-MM-dd HH:mm:ss");
+            blogInfo1.setCreateTime(str);
+            blogInfoList.add(blogInfo1);
 
         }
-
-        List<BlogInfo> blogInfoList = new ArrayList<>();
-
 
         return blogInfoList;
 

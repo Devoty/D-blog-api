@@ -11,6 +11,7 @@ import top.devoty.service.BlogService;
 import top.devoty.service.FileService;
 import top.devoty.common.UUIDUtils;
 import top.devoty.util.FileUtil;
+import top.devoty.util.SpringContextsUtil;
 
 import java.io.File;
 
@@ -41,7 +42,10 @@ public class FileServiceImpl implements FileService {
         }
 
         String content = FileUtil.readFile(dest);
-        blogService.article(content);
+//        blogService.article(content);
+
+        BlogService blogService = (BlogService)SpringContextsUtil.getBean("blogService");
+//        blogService.creatBlog()
 
         return uuid;
 

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Blog {
-    private Long id;
+    private Integer id;
 
     private String title;
 

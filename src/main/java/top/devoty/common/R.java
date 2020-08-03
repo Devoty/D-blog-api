@@ -39,6 +39,7 @@ public class R<T> {
     public R(CommonEnum commonEnum, T data){
         this.msg = commonEnum.getMsg();
         this.code = commonEnum.getCode();
+        this.data = data;
     }
 
     public static <T> R<T> ok(){

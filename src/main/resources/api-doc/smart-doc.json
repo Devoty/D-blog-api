@@ -1,0 +1,11 @@
+{
+  "serverUrl": "localhost:8080",
+  "isStrict": false, //是否开启严格模式
+  "allInOne": true,
+  "outPath": "src/main/resources/api-doc",
+  "coverOld": true,  //是否覆盖旧的文件，主要用于mardown文件覆盖
+  "packageFilters": "",//controller包过滤，多个包用英文逗号隔开
+  "md5EncryptedHtmlName": false,//只有每个controller生成一个html文件是才使用
+  "projectName": "coll", //配置自己的项目名称
+  "language": "zh-CN"
+}

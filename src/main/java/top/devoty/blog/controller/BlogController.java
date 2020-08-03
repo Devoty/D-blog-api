@@ -2,6 +2,7 @@ package top.devoty.blog.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.devoty.dto.*;
@@ -16,11 +17,6 @@ import java.util.List;
 @RequestMapping("blog")
 public class BlogController {
 
-    private final static String COUNT = "count";
-    private final static String CREAT = "creat";
-    private final static String LIST = "list";
-    private final static String ARTICLE = "article";
-
     private BlogService blogService;
 
     @Autowired
@@ -32,115 +28,55 @@ public class BlogController {
      * 查询博客总数
      * @return
      */
-    @GetMapping(COUNT)
-    public R count(){
-        return blogService.countBlog();
+    @GetMapping("count")
+    public R<Long> count(){
+        return R.ok(blogService.countBlog());
     }
 
 
     /**
-     * 创建blog
+     * 创建blog,返回创建blog数量
      * @return
      */
-    @PostMapping(CREAT)
-    public R creatBlog(@Validated @RequestBody BlogInfo blogInfo){
-        return blogService.creatBlog(blogInfo);
+    @PostMapping("creat")
+    public R<Integer> creatBlog(@Validated @RequestBody BlogInfo blogInfo){
+        return R.ok(blogService.creatBlog(blogInfo));
     }
 
-    @GetMapping(LIST)
+    /**
+     * 查询blog列表
+     * @param blogInfo
+     * @return
+     */
+    @GetMapping("list")
     public R<List<BlogInfo>> listBlog(BlogInfo blogInfo){
-
         List<BlogInfo> blogInfos = blogService.listBlog(blogInfo);
-
-
         return R.ok(blogInfos);
     }
 
-    @GetMapping(ARTICLE)
-    public String article(@RequestBody String articleId){
-        System.out.println("article");
-        return "# 001";
+    /**
+     * 根据文章ID，获取文章详细内容
+     * @param articleId
+     * @return
+     */
+    @GetMapping("article/{articleId}")
+    public R<String> article(@PathVariable("articleId") String articleId){
+        String content = blogService.getsArticle(articleId);
+        return R.ok(content);
     }
 
-    @PostMapping(ARTICLE)
-    public R article(@RequestBody String article,String df){
+    /**
+     * 新增一篇文章
+     * @param article 文章内容
+     * @param articleId 文章ID
+     * @return
+     */
+    @PostMapping("article")
+    public R article(String articleId, String article){
+        blogService.creatArticle(articleId, article);
         return R.ok();
     }
 
-
-    //SELECT config_name, config_value FROM tb_config where config_name in ('avatar', 'desc','name', 'notice', 'slogan')
-    @GetMapping("site")
-    public R<SiteInfo> site(){
-        SiteInfo siteInfo = SiteInfo.builder()
-                .avatar("https://s2.ax1x.com/2020/01/17/1SCadg.png")
-                .desc("修身养性！！！").domain("https://www.devoty.top")
-                .name("Devoty-blog").notice("注意开车了！！！")
-                .slogan("倒车请注意")
-                .build();
-        return R.ok(siteInfo);
-    }
-
-
-    @GetMapping("social")
-    public R<List<SocialInfo>> social(){
-        SocialInfo socialInfo = SocialInfo.builder()
-                .id("1")
-                .title("QQ")
-                .icon("iconqq")
-                .color("#1AB6FF")
-                .href("http://wpa.qq.com/msgrd?v=3&uin=634923628&site=qq&menu=yes")
-                .build();
-        SocialInfo socialInfo1 = SocialInfo.builder()
-                .id("2")
-                .title("Gitee")
-                .icon("icongitee")
-                .color("#d81e06")
-                .href("https://gitee.com/devoty")
-                .build();
-        SocialInfo socialInfo2 = SocialInfo.builder()
-                .id("3")
-                .title("GitHub")
-                .icon("icongithub")
-                .color("#1AB6FF")
-                .href("https://github.com/Devoty")
-                .build();
-//        SocialInfoDTO socialInfoDTO3 = SocialInfoDTO.builder()
-//                .id("4")
-//                .title("CSDN")
-//                .icon("iconcsdn")
-//                .color("red")
-//                .href("https://blog.csdn.net/feng_zi_ye")
-//                .build();
-        List<SocialInfo> socialInfoList = new ArrayList<>();
-        socialInfoList.add(socialInfo);
-        socialInfoList.add(socialInfo1);
-        socialInfoList.add(socialInfo2);
-//        socialInfoDTOList.add(socialInfoDTO3);
-        return R.ok(socialInfoList);
-    }
-
-    @GetMapping("category")
-    public R<List<CategoryInfo>> category(){
-        System.out.println("category");
-        CategoryInfo categoryInfo = CategoryInfo.builder()
-                .id("1").href("/category/java").title("JAVA")
-                .build();
-        CategoryInfo categoryInfo1 = CategoryInfo.builder()
-                .id("2").href("/category/SpringBoot").title("SpringBoot")
-                .build();
-        CategoryInfo categoryInfo2 = CategoryInfo.builder()
-                .id("3").href("/category/MySql").title("MySql")
-                .build();
-        CategoryInfo categoryInfo3 = CategoryInfo.builder()
-                .id("4").href("/category/live").title("随笔")
-                .build();
-        List<CategoryInfo> categoryInfoList = new ArrayList<>();
-        categoryInfoList.add(categoryInfo);
-        categoryInfoList.add(categoryInfo1);
-        categoryInfoList.add(categoryInfo2);
-        categoryInfoList.add(categoryInfo3);
-        return R.ok(categoryInfoList);
-    }
 
     @GetMapping("comment")
     public R<List<Comments>> comment(){
@@ -150,8 +86,8 @@ public class BlogController {
                 .createTime(new Date().toString())
                 .fromUserId("01")
                 .fromUserName("xiexie")
-                .id("009")
-                .parentId("008").postId("sdjhfo")
+                .id("9")
+                .postId("sdjhfo")
                 .build();
 
         Reply reply = Reply.builder()
@@ -159,8 +95,8 @@ public class BlogController {
                 .createTime(new Date().toString())
                 .fromUserId("df")
                 .fromUserName("xiexie")
-                .id("009")
-                .parentId("008").postId("sdjhfo")
+                .id("5")
+                .postId("sdjhfo")
                 .toUserId("dd").toUserName("dd0")
                 .build();
 
